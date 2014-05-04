@@ -186,10 +186,11 @@ parseExpr = parseAtom
 readExpr = readOrThrow parseExpr
 readExprList = readOrThrow (endBy parseExpr spaces)
 
-readOrThrow :: Parser a -> String -> ThrowsError LispVal
-readOrThrow parser input = case parse parseExpr "lisp" input of
+readOrThrow :: Parser a -> String -> ThrowsError a
+readOrThrow parser input = case parse parser "lisp" input of
     Left err -> throwError $ Parser err
     Right val -> return val
+
 
 -- Printing values
 
